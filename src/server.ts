@@ -4,13 +4,12 @@ import config from './config'
 import { errorLogger, logger } from './shared/logger'
 import { Server } from 'http'
 
-
-process.on("uncaughtException", (error) => {
+process.on('uncaughtException', error => {
   errorLogger.error(error)
-  process.exit(1);
+  process.exit(1)
 })
 
-let server: Server;
+let server: Server
 
 async function main() {
   try {
@@ -23,7 +22,7 @@ async function main() {
     errorLogger.error(`Failed to connect to server`)
   }
 
-  process.on("unhandledRejection", (error) => {
+  process.on('unhandledRejection', error => {
     if (server) {
       server.close(() => {
         errorLogger.error('unhandledRejection Failed to close', error)
@@ -36,7 +35,7 @@ async function main() {
 }
 
 main()
-process.on("SIGTERM", () => {
+process.on('SIGTERM', () => {
   logger.info('SIGTERM received')
   if (server) {
     server.close()
